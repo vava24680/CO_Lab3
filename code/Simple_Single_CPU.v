@@ -9,6 +9,13 @@
 //Description:
 //--------------------------------------------------------------------------------
 //Done
+/*
+0502 Comments
+add branch mux(4-1)
+add brach_target mux(2-1)
+add memory mux(4-1)
+modify the pc source mux to jump mux
+*/
 module Simple_Single_CPU(
         clk_i,
 		rst_i
@@ -32,11 +39,16 @@ wire [5-1:0]  WriteReg;
 wire [32-1:0] RSdata_o;
 wire [32-1:0] RTdata_o;
 /*For Decoder Module*/
-wire RegWrite_o;
+wire  Branch_o;
+wire [2-1:0] MemToReg_o;
+wire [2-1:0] BranchType_o;
+wire  Jump_o;
+wire  MemRead_o;
+wire  MemWrite_o;
 wire [3-1:0] ALU_op_o;
-wire ALUSrc_2_o;
-wire RegDst_o;
-wire Branch_o;
+wire  ALUSrc_2_o;
+wire  RegWrite_o;
+wire  RegDst_o;
 /*For ALU_Ctrl Module*/
 wire ALUSrc_1_o;
 wire [4-1:0] ALUCtrl_o;
@@ -47,6 +59,8 @@ wire [32-1:0] ALU_src_1;
 wire [32-1:0] ALU_src_2;
 wire [32-1:0] result_o;
 wire zero_o;
+/*For Memory Module*/
+wire [32-1:0] MEM_Read_data_o;
 /*For Adder2*/
 wire [32-1:0] Adder2_result;
 /*For Shift_Left_Two_32 Module*/
@@ -102,11 +116,16 @@ Reg_File RF(
 Decoder Decoder(
 		//Done
         .instr_op_i(instruction_o[31:26]),
-	    .RegWrite_o(RegWrite_o),
-	    .ALU_op_o(ALU_op_o),
-	    .ALUSrc_o(ALUSrc_2_o),
-	    .RegDst_o(RegDst_o),
-		.Branch_o(Branch_o)
+	    .Branch_o(Branch_o),
+		.MemToReg_o(MemToReg_o),
+		.BranchType_o(BranchType_o),
+		.Jump_o(Jump_o),
+		.MemRead_o(MemRead_o),
+		.MemWrite_o(MemWrite_o),
+		.ALU_op_o(ALU_op_o),
+		.ALUSrc_o(ALUSrc_2_o),
+		.RegWrite_o(RegWrite_o),
+		.RegDst_o(RegDst_o)
 	    );
 
 ALU_Ctrl AC(
@@ -150,6 +169,15 @@ ALU ALU(
 	    .result_o(result_o),
 		.zero_o(zero_o)
 	    );
+
+Data_Memory MEM(
+	.clk_i(clk_i),
+	.addr_i(result_o),
+	.data_i(RTdata_o),
+	.MemRead_i(MemRead_out),
+	.MemWrite_i(MemWrite_out),
+	.data_o(MEM_Read_data_o)
+	);
 
 Adder Adder2(
 		//Done
