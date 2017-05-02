@@ -2,7 +2,7 @@
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
-//Writer:0416315王定偉、0416005張彧豪
+//Writer:0416315�����416005張彧��
 //----------------------------------------------
 //Date:
 //----------------------------------------------
@@ -20,7 +20,7 @@ module Decoder(
 	ALU_op_o,
 	ALUSrc_o,
 	RegWrite_o,
-	RegDst_o,
+	RegDst_o
 	);
 
 //I/O ports
@@ -187,16 +187,16 @@ always @ ( * ) begin
 		*/
 		default:
 			begin
-				Branch_o = 1'bx;
-				MemToReg_o = 2'bxx;
-				BranchType_o = 2'bxx;
-				Jump_o = 1'bx;
-				MemRead_o = 1'bx;
-				MemWrite_o = 1'bx;
-				ALU_op_o = 2'bxxx;
-				ALUSrc_o = 1'bx;
-				RegWrite_o = 1'bx;
-				RegDst_o = 1'bx;
+				Branch_o = 1'b0;
+				MemToReg_o = 2'b00;
+				BranchType_o = 2'b00;
+				Jump_o = 1'b0;
+				MemRead_o = 1'b0;
+				MemWrite_o = 1'b0;
+				ALU_op_o = 3'b000;
+				ALUSrc_o = 1'b0;
+				RegWrite_o = 1'b0;
+				RegDst_o = 1'b0;
 			end
 	endcase
 end

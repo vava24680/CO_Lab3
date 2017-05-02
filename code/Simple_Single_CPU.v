@@ -32,6 +32,7 @@ wire [32-1:0] shamt;
 wire [32-1:0] pc_number;
 wire [32-1:0] pc_number_next;
 wire [32-1:0] pc_number_in;
+wire [32-1:0] pc_plus_four;
 /*For IM Module*/
 wire [32-1:0] instruction_o;
 /*For Reg_File Module*/
@@ -61,29 +62,34 @@ wire [32-1:0] result_o;
 wire zero_o;
 /*For Memory Module*/
 wire [32-1:0] MEM_Read_data_o;
-/*For Adder2*/
-wire [32-1:0] Adder2_result;
+/*For MUX_4to1*/
+wire [32-1:0] WB_data_o;
+wire [32-1:0] Branch_MUX_out;
+wire type_branch_o;
+/*For Adder_For_BranchTarget*/
+wire [32-1:0] Branch_target;
 /*For Shift_Left_Two_32 Module*/
 wire [32-1:0] SL_32_data_o;
 
-wire Brach_signal;
+wire Branch_signal;
 assign shamt = {27'b0,instruction_o[10:6]};
-assign Brach_signal = Branch_o & zero_o;
+assign Branch_signal = Branch_o & type_branch_o;
 
 //Greate componentes
 ProgramCounter PC(
 		//Done
         .clk_i(clk_i),
 	    .rst_i (rst_i),
-	    .pc_in_i(pc_number_in),
-	    .pc_out_o(pc_number)
+	    //.pc_in_i(pc_number_in),
+		.pc_in_i(pc_number_next),
+		.pc_out_o(pc_number)
 	    );
 
-Adder Adder1(
+Adder Adder_For_Instruction(
 		//Done
         .src1_i(pc_number),
 	    .src2_i(32'd4),
-	    .sum_o(pc_number_next)
+	    .sum_o(pc_plus_four)
 	    );
 
 Instr_Memory IM(
@@ -91,7 +97,7 @@ Instr_Memory IM(
         .pc_addr_i(pc_number),
 	    .instr_o(instruction_o)
 	    );
-
+//First MUX
 MUX_2to1 #(.size(5)) Mux_Write_Reg(
 		//Done
         .data0_i(instruction_o[20:16]),
@@ -99,7 +105,55 @@ MUX_2to1 #(.size(5)) Mux_Write_Reg(
         .select_i(RegDst_o),
         .data_o(WriteReg)
         );
-
+MUX_2to1 #(.size(32)) Mux_ALUSrc_1(
+		//Done
+        .data0_i(RSdata_o),
+        .data1_i(shamt),
+        .select_i(ALUSrc_1_o),
+        .data_o(ALU_src_1)
+        );
+//Third MUX
+MUX_2to1 #(.size(32)) Mux_ALUSrc_2(
+		//Done
+        .data0_i(RTdata_o),
+        .data1_i(SE_data_o),
+        .select_i(ALUSrc_2_o),
+        .data_o(ALU_src_2)
+        );
+//Forth MUX
+MUX_4to1 #(.size(32)) Mux_MEM(
+	.data0_i(result_o),
+	.data1_i(MEM_Read_data_o),
+	.data2_i(SE_data_o),
+	.data3_i(pc_plus_four),
+	.select_i(MemToReg_o),
+	.data_o(WB_data_o)
+	);
+//Fifth MUX
+MUX_4to1 #(.size(1)) Mux_Branch_Type(
+	.data0_i(zero_o),
+	.data1_i(~(zero_o|result_o[31])),
+	.data2_i(~result_o[31]),
+	.data3_i(~zero_o),
+	.select_i(BranchType_o),
+	.data_o(type_branch_o)
+	);
+//Sixth MUX
+MUX_2to1 #(.size(32)) Mux_Branch(
+		//Done
+        .data0_i(pc_plus_four),
+        .data1_i(Branch_target),
+        .select_i(Branch_signal),
+        .data_o(Branch_MUX_out)
+        );
+//seven MUX
+MUX_2to1 #(.size(32)) Mux_Jump(
+		//Done
+        .data0_i(Branch_MUX_out),
+        .data1_i({pc_plus_four[31:28],instruction_o[25:0],2'b00}),
+        .select_i(Jump_o),
+        .data_o(pc_number_next)
+        );
 Reg_File RF(
 		//Done
         .clk_i(clk_i),
@@ -107,7 +161,7 @@ Reg_File RF(
         .RSaddr_i(instruction_o[25:21]),
         .RTaddr_i(instruction_o[20:16]),
         .RDaddr_i(WriteReg),
-        .RDdata_i(result_o),
+        .RDdata_i(WB_data_o),
         .RegWrite_i (RegWrite_o),
         .RSdata_o(RSdata_o),
         .RTdata_o(RTdata_o)
@@ -143,22 +197,7 @@ Sign_Extend SE(
         );
 
 
-
-MUX_2to1 #(.size(32)) Mux_ALUSrc_1(
-		//Done
-        .data0_i(RSdata_o),
-        .data1_i(shamt),
-        .select_i(ALUSrc_1_o),
-        .data_o(ALU_src_1)
-        );
-
-MUX_2to1 #(.size(32)) Mux_ALUSrc_2(
-		//Done
-        .data0_i(RTdata_o),
-        .data1_i(SE_data_o),
-        .select_i(ALUSrc_2_o),
-        .data_o(ALU_src_2)
-        );
+//Second MUX
 
 ALU ALU(
 		//Done
@@ -174,30 +213,22 @@ Data_Memory MEM(
 	.clk_i(clk_i),
 	.addr_i(result_o),
 	.data_i(RTdata_o),
-	.MemRead_i(MemRead_out),
-	.MemWrite_i(MemWrite_out),
+	.MemRead_i(MemRead_o),
+	.MemWrite_i(MemWrite_o),
 	.data_o(MEM_Read_data_o)
 	);
 
-Adder Adder2(
+Adder Adder_For_BranchTarget(
 		//Done
-        .src1_i(pc_number_next),
+        .src1_i(pc_plus_four),
 	    .src2_i(SL_32_data_o),
-	    .sum_o(Adder2_result)
+	    .sum_o(Branch_target)
 	    );
 
 Shift_Left_Two_32 Shifter(
 		//Done
         .data_i(SE_data_o),
         .data_o(SL_32_data_o)
-        );
-
-MUX_2to1 #(.size(32)) Mux_PC_Source(
-		//Done
-        .data0_i(pc_number_next),
-        .data1_i(Adder2_result),
-        .select_i(Branch_o & zero_o),
-        .data_o(pc_number_in)
         );
 
 endmodule

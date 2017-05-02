@@ -2,7 +2,7 @@
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
-//Writer:0416315‹å‰ã€416005å¼µå½§è±
+//Writer:0416315ï¿½ï¿½ï¿½ï¿½ï¿½416005å¼µå½§ï¿½ï¿½
 //----------------------------------------------
 //Date:
 //----------------------------------------------
@@ -45,6 +45,7 @@ wire src2_extraMSB;
 wire A_invert;
 wire [32-1:0] SLL_result;
 wire [32-1:0] LUI_result;
+wire [32-1:0] MUL_result;
 
 assign src1_extraMSB = (ctrl_i==4'b1111) ? 1'b0 : src1_i[31];
 assign src2_extraMSB = (ctrl_i==4'b1111) ? 1'b0 : src2_i[31];
@@ -53,6 +54,8 @@ assign A_invert = (ctrl_i==4'b1111 || ctrl_i==4'b1110) ? 1'b0 : ctrl_i[3];
 assign equal_in = (&temp_equal_out);
 assign SLL_result = src2_i << src1_i[4:0];
 assign LUI_result = {src2_i[15:0],16'b0};//src2_i << 5'd16;
+assign MUL_result = src1_i*src2_i;
+
 alu_top  alu00(
 	.src1(src1_i[0]),.src2(src2_i[0]),.less(set_out),/*.equal(),*/.A_invert(A_invert),.B_invert(ctrl_i[2]),.cin(ctrl_i[2]&ctrl_i[1]),.operation(ctrl_i[1:0]),
 	.equal_out(temp_equal_out[0]),
@@ -261,7 +264,7 @@ ALUCtrl_o,operation             -
    0010  ,   ADD                -
    0011  ,   Shift_Left         -
    0100  ,   LUI                -
-   0101  ,   N/A                -
+   0101  ,   MUL                -
    0110  ,   SUB,BEQ            -
    0111  ,   SLT                -
    1000  ,   N/A                -
@@ -288,6 +291,11 @@ always @ ( * ) begin
 					begin
 						zero_o = ~(|LUI_result);
 						result_o = LUI_result;
+					end
+				4'b0101://For MUL operation
+					begin
+						zero_o = ~(|MUL_result);
+						result_o = MUL_result;
 					end
 				4'b1110://For BNE
 					begin

@@ -35,7 +35,7 @@ ALUCtrl_o,operation             -
    0010  ,   ADD                -
    0011  ,   Shift_Left         -
    0100  ,   LUI                -
-   0101  ,   N/A                -
+   0101  ,   MUL                -
    0110  ,   SUB,BEQ            -
    0111  ,   SLT                -
    1000  ,   N/A                -
@@ -60,8 +60,9 @@ always @ ( * ) begin
 					6'd37: {ALUSrc_1_o,ALUCtrl_o}=5'b00001;//OR
 					6'd42: {ALUSrc_1_o,ALUCtrl_o}=5'b00111;//SLT
 					6'd43: {ALUSrc_1_o,ALUCtrl_o}=5'b01111; //For sltu still thinking, maybe change the 1-bit ALU turth table which is designed for slt instruction
+					6'd24: {ALUSrc_1_o,ALUCtrl_o}=5'b00101;//MUL
 					6'd0: {ALUSrc_1_o,ALUCtrl_o}=5'b10011;//SLL
-					6'd4: {ALUSrc_1_o,ALUCtrl_o}=5'b00011;//
+					6'd4: {ALUSrc_1_o,ALUCtrl_o}=5'b00011;//SLLV
 				endcase
 			end
 		3'b001://Branch
