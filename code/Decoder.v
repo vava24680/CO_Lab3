@@ -69,6 +69,36 @@ always @ ( * ) begin
 				RegDst_o = 1'b1;
 				//RegDst_o = 2'b01;
 			end
+		6'd2://For Jump
+			begin
+				Branch_o = 1'b0;     //Don't care
+				MemToReg_o = 2'b00;  //Don't care
+				BranchType_o = 2'b00;//Don't care
+				Jump_o = 1'b1;
+				MemRead_o = 1'b0;
+				MemWrite_o = 1'b0;
+				ALU_op_o = 3'b111;   //Don't care
+				ALUSrc_o = 1'b0;     //Don't care
+				RegWrite_o = 1'b0;
+				RegDst_o = 1'b0;     //Don't care
+				//RegDst_o = 2'b00;
+			end
+		/*
+		6'b3://For JAL
+			begin
+				Branch_o = 1'b0;     //Don't care
+				MemToReg_o = 2'b11;
+				BranchType_o = 2'b00;//Don't care
+				Jump_o = 1'b1;
+				MemRead_o = 1'b0;
+				MemWrite_o = 1'b0;
+				ALU_op_o = 3'b111;   //Don't care
+				ALUSrc_o = 1'b0;     //Don't care
+				RegWrite_o = 1'b0;
+				//RegDst_o = 1'b0      //Don't care
+				//RegDst_o = 2'b10;
+			end
+		*/
 		6'd4://Branch Equal
 			begin
 				Branch_o = 1'b1;
@@ -83,7 +113,7 @@ always @ ( * ) begin
 				RegDst_o = 1'b0;
 				//RegDst_o = 2'b00;
 			end
-		6'd5://Brach not Equal
+		6'd5://Brach not Equal, BNEZ(Need more check)
 			begin
 				Branch_o = 1'b1;
 				MemToReg_o = 2'b00;  //Don't care
@@ -97,6 +127,41 @@ always @ ( * ) begin
 				RegDst_o = 1'b0;
 				//RegDst_o = 2'b00;
 			end
+		/*
+		6'd6://For BLT
+			begin
+				Branch_o = 1'b1;
+				MemToReg_o = 2'b00;  //Don't care
+				//BranchType_o =
+				Jump_o = 1'b0;
+				MemRead_o = 1'b0;
+				MemWrite_o = 1'b0;
+				//ALU_op_o =
+				ALUSrc_o = 1'b0;
+				RegWrite_o = 1'b0;
+				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
+			end
+		*/
+		/*
+		6'd7://For BLE
+			begin
+				Branch_o = 1'b1;
+				MemToReg_o = 2'b00;  //Don't care
+				//BranchType_o =
+				Jump_o = 1'b0;
+				MemRead_o = 1'b0;
+				MemWrite_o = 1'b0;
+				//ALU_op_o =
+				ALUSrc_o = 1'b0;
+				RegWrite_o = 1'b0;
+				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
+			end
+		*/
+		/*
+		6'd
+		*/
 		6'd8://Addi
 			begin
 				Branch_o = 1'b0;
@@ -167,36 +232,6 @@ always @ ( * ) begin
 				RegDst_o = 1'b1;     //don't care
 				//RegDst_o = 2'b01;
 			end
-		6'd2://For Jump
-			begin
-				Branch_o = 1'b0;     //Don't care
-				MemToReg_o = 2'b00;  //Don't care
-				BranchType_o = 2'b00;//Don't care
-				Jump_o = 1'b1;
-				MemRead_o = 1'b0;
-				MemWrite_o = 1'b0;
-				ALU_op_o = 3'b111;   //Don't care
-				ALUSrc_o = 1'b0;     //Don't care
-				RegWrite_o = 1'b0;
-				RegDst_o = 1'b0;     //Don't care
-				//RegDst_o = 2'b00;
-			end
-		/*
-		6'b3://For JAL
-			begin
-				Branch_o = 1'b0;     //Don't care
-				MemToReg_o = 2'b11;
-				BranchType_o = 2'b00;//Don't care
-				Jump_o = 1'b1;
-				MemRead_o = 1'b0;
-				MemWrite_o = 1'b0;
-				ALU_op_o = 3'b111;   //Don't care
-				ALUSrc_o = 1'b0;     //Don't care
-				RegWrite_o = 1'b0;
-				//RegDst_o = 1'b0      //Don't care
-				//RegDst_o = 2'b10;
-			end
-		*/
 		default:
 			begin
 				Branch_o = 1'b0;

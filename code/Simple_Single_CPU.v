@@ -28,17 +28,21 @@ input         rst_i;
 //Internal Signles
 /*For SLL instruction*/
 wire [32-1:0] shamt;
+
 /*For PC Module*/
 wire [32-1:0] pc_number;
 wire [32-1:0] pc_number_next;
 wire [32-1:0] pc_number_in;
 wire [32-1:0] pc_plus_four;
+
 /*For IM Module*/
 wire [32-1:0] instruction_o;
+
 /*For Reg_File Module*/
 wire [5-1:0]  WriteReg;
 wire [32-1:0] RSdata_o;
 wire [32-1:0] RTdata_o;
+
 /*For Decoder Module*/
 wire  Branch_o;
 wire [2-1:0] MemToReg_o;
@@ -50,24 +54,32 @@ wire [3-1:0] ALU_op_o;
 wire  ALUSrc_2_o;
 wire  RegWrite_o;
 wire  RegDst_o;
+//wire [2-1:0] RegDst_o;
+
 /*For ALU_Ctrl Module*/
 wire ALUSrc_1_o;
 wire [4-1:0] ALUCtrl_o;
+
 /*For Sign_Extend Module*/
 wire [32-1:0] SE_data_o;
+
 /*For ALU Module*/
 wire [32-1:0] ALU_src_1;
 wire [32-1:0] ALU_src_2;
 wire [32-1:0] result_o;
 wire zero_o;
+
 /*For Memory Module*/
 wire [32-1:0] MEM_Read_data_o;
+
 /*For MUX_4to1*/
 wire [32-1:0] WB_data_o;
 wire [32-1:0] Branch_MUX_out;
 wire type_branch_o;
+
 /*For Adder_For_BranchTarget*/
 wire [32-1:0] Branch_target;
+
 /*For Shift_Left_Two_32 Module*/
 wire [32-1:0] SL_32_data_o;
 
@@ -109,8 +121,8 @@ MUX_2to1 #(.size(5)) Mux_Write_Reg_Select(
 MUX_4to1 #(.size(5)) Mux_Write_Reg_Select(
 		.data0_i(instruction_o[20:16]),
 		.data1_i(instruction_o[15:11]),
-		.data2_i(5'd32),
-		.data3_i(5'd0),
+		.data2_i(5'd31),
+		.data3_i(5'd0),//For future use
 		.select_i(RegDst_o),
 		.data_o(WriteReg)
 		);
