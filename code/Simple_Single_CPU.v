@@ -11,10 +11,10 @@
 //Done
 /*
 0502 Comments
-add branch mux(4-1)
-add brach_target mux(2-1)
-add memory mux(4-1)
-modify the pc source mux to jump mux
+add branch mux(4-1)//Done
+add brach_target mux(2-1)//Done
+add memory mux(4-1)//Done
+modify the pc source mux to jump mux//Done
 */
 module Simple_Single_CPU(
         clk_i,
@@ -98,13 +98,24 @@ Instr_Memory IM(
 	    .instr_o(instruction_o)
 	    );
 //First MUX
-MUX_2to1 #(.size(5)) Mux_Write_Reg(
+MUX_2to1 #(.size(5)) Mux_Write_Reg_Select(
 		//Done
         .data0_i(instruction_o[20:16]),
         .data1_i(instruction_o[15:11]),
         .select_i(RegDst_o),
         .data_o(WriteReg)
         );
+/*Improved version of Firsy MUX
+MUX_4to1 #(.size(5)) Mux_Write_Reg_Select(
+		.data0_i(instruction_o[20:16]),
+		.data1_i(instruction_o[15:11]),
+		.data2_i(5'd32),
+		.data3_i(5'd0),
+		.select_i(RegDst_o),
+		.data_o(WriteReg)
+		);
+*/
+//Second MUX
 MUX_2to1 #(.size(32)) Mux_ALUSrc_1(
 		//Done
         .data0_i(RSdata_o),
@@ -195,9 +206,6 @@ Sign_Extend SE(
         .data_i(instruction_o[16-1:0]),
         .data_o(SE_data_o)
         );
-
-
-//Second MUX
 
 ALU ALU(
 		//Done

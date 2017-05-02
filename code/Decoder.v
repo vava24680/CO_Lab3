@@ -2,7 +2,7 @@
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
-//Writer:0416315�����416005張彧��
+//Writer:0416315王定偉、0416005張彧豪
 //----------------------------------------------
 //Date:
 //----------------------------------------------
@@ -36,6 +36,7 @@ output [3-1:0] ALU_op_o;
 output  ALUSrc_o;
 output  RegWrite_o;
 output  RegDst_o;
+//output [2-1:0] RegDst_o;
 //Internal Signals
 reg  Branch_o;
 reg [2-1:0] MemToReg_o;
@@ -44,9 +45,10 @@ reg  Jump_o;
 reg  MemRead_o;
 reg  MemWrite_o;
 reg [3-1:0] ALU_op_o;
-reg            ALUSrc_o;
-reg            RegWrite_o;
-reg            RegDst_o;
+reg  ALUSrc_o;
+reg  RegWrite_o;
+reg  RegDst_o;
+//reg [2-1:0] RegDst_o;
 //Parameter
 
 
@@ -65,6 +67,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b1;
 				RegDst_o = 1'b1;
+				//RegDst_o = 2'b01;
 			end
 		6'd4://Branch Equal
 			begin
@@ -78,6 +81,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 		6'd5://Brach not Equal
 			begin
@@ -91,6 +95,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 		6'd8://Addi
 			begin
@@ -104,6 +109,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 		6'd15://For LUI
 			begin
@@ -117,6 +123,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 		6'd13://For ORI
 			begin
@@ -130,6 +137,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 		6'd35://For LW
 			begin
@@ -143,6 +151,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 		6'd43://For SW
 			begin
@@ -156,6 +165,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b0;
 				RegDst_o = 1'b1;     //don't care
+				//RegDst_o = 2'b01;
 			end
 		6'd2://For Jump
 			begin
@@ -169,6 +179,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b0;     //Don't care
 				RegWrite_o = 1'b0;
 				RegDst_o = 1'b0;     //Don't care
+				//RegDst_o = 2'b00;
 			end
 		/*
 		6'b3://For JAL
@@ -182,7 +193,8 @@ always @ ( * ) begin
 				ALU_op_o = 3'b111;   //Don't care
 				ALUSrc_o = 1'b0;     //Don't care
 				RegWrite_o = 1'b0;
-				RegDst_o = 1'b0      //Don't care
+				//RegDst_o = 1'b0      //Don't care
+				//RegDst_o = 2'b10;
 			end
 		*/
 		default:
@@ -197,6 +209,7 @@ always @ ( * ) begin
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
 				RegDst_o = 1'b0;
+				//RegDst_o = 2'b00;
 			end
 	endcase
 end
