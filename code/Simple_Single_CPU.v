@@ -2,8 +2,7 @@
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
-//Writer:0416315王定偉、0416005張彧豪
-//----------------------------------------------
+//Writer:0416315���416005張彧�//----------------------------------------------
 //Date:
 //----------------------------------------------
 //Description:
@@ -53,8 +52,8 @@ wire  MemWrite_o;
 wire [3-1:0] ALU_op_o;
 wire  ALUSrc_2_o;
 wire  RegWrite_o;
-wire  RegDst_o;
-//wire [2-1:0] RegDst_o;
+//wire  RegDst_o;
+wire [2-1:0] RegDst_o;
 
 /*For ALU_Ctrl Module*/
 wire ALUSrc_1_o;
@@ -110,14 +109,15 @@ Instr_Memory IM(
 	    .instr_o(instruction_o)
 	    );
 //First MUX
-MUX_2to1 #(.size(5)) Mux_Write_Reg_Select(
+/*MUX_2to1 #(.size(5)) Mux_Write_Reg_Select(
 		//Done
         .data0_i(instruction_o[20:16]),
         .data1_i(instruction_o[15:11]),
         .select_i(RegDst_o),
         .data_o(WriteReg)
         );
-/*Improved version of Firsy MUX
+*/
+//Improved version of First MUX
 MUX_4to1 #(.size(5)) Mux_Write_Reg_Select(
 		.data0_i(instruction_o[20:16]),
 		.data1_i(instruction_o[15:11]),
@@ -126,7 +126,6 @@ MUX_4to1 #(.size(5)) Mux_Write_Reg_Select(
 		.select_i(RegDst_o),
 		.data_o(WriteReg)
 		);
-*/
 //Second MUX
 MUX_2to1 #(.size(32)) Mux_ALUSrc_1(
 		//Done
@@ -154,10 +153,10 @@ MUX_4to1 #(.size(32)) Mux_MEM(
 	);
 //Fifth MUX
 MUX_4to1 #(.size(1)) Mux_Branch_Type(
-	.data0_i(zero_o),
-	.data1_i(~(zero_o|result_o[31])),
-	.data2_i(~result_o[31]),
-	.data3_i(~zero_o),
+	.data0_i(zero_o),//BEQ
+	.data1_i((zero_o|result_o[31])),//BLE
+	.data2_i(result_o[31]),//BLT
+	.data3_i(zero_o),//BNE,BNEZ
 	.select_i(BranchType_o),
 	.data_o(type_branch_o)
 	);

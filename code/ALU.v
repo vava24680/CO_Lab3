@@ -302,7 +302,7 @@ always @ ( * ) begin
 						zero_o = (|temp_result[31:0]);
 						result_o = temp_result[31:0];
 					end
-				default://For AND,OR,SLTU
+				default://For AND,OR,SLTU,SLT,ADD,SUB,BEQ
 					begin
 						zero_o = ~(|temp_result[32-1:0]);
 						result_o = temp_result[31:0];

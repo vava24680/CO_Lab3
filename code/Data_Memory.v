@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:
+// Engineer:
+//
 // Create Date:    17:31:32 02/25/2016
-// Design Name: 
-// Module Name:    Data_Memory 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Design Name:
+// Module Name:    Data_Memory
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Dependencies: 
+// Dependencies:
 //
-// Revision: 
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Data_Memory
@@ -91,7 +91,7 @@ initial begin
 	Mem[28] = 8'b0010;
 	Mem[32] = 8'b0001;
 	Mem[36] = 8'b0011;
-end 
+end
 
 always@(posedge clk_i) begin
     if(MemWrite_i) begin

@@ -26,7 +26,19 @@ output ALUSrc_1_o;
 reg        [4-1:0] ALUCtrl_o;
 reg ALUSrc_1_o;
 //Parameter
-
+/*ALU_op_o signal corresponding to What kind of operation
+---------------------------------
+ALU_op_o,set of operation      -
+   000  ,   R-type             -
+   001  ,   BEQ                -
+   010  ,   BNE                -
+   011  ,   Addi,lw,sw         -
+   100  ,   LUI                -
+   101  ,   ORI                -
+   110  ,   LI                 -//Need confirmation
+   111  ,   Don't care use     -
+---------------------------------
+*/
 /*ALUCtrl_o signal corresponding to What kind of operation
 ---------------------------------
 ALUCtrl_o,operation             -
@@ -59,17 +71,18 @@ always @ ( * ) begin
 					6'd36: {ALUSrc_1_o,ALUCtrl_o}=5'b00000;//AND
 					6'd37: {ALUSrc_1_o,ALUCtrl_o}=5'b00001;//OR
 					6'd42: {ALUSrc_1_o,ALUCtrl_o}=5'b00111;//SLT
-					6'd43: {ALUSrc_1_o,ALUCtrl_o}=5'b01111; //For sltu still thinking, maybe change the 1-bit ALU turth table which is designed for slt instruction
+					6'd43: {ALUSrc_1_o,ALUCtrl_o}=5'b01111; //SLTU
 					6'd24: {ALUSrc_1_o,ALUCtrl_o}=5'b00101;//MUL
+					6'd8: {ALUSrc_1_o,ALUCtrl_o}={5'b00010};//JR
 					6'd0: {ALUSrc_1_o,ALUCtrl_o}=5'b10011;//SLL
 					6'd4: {ALUSrc_1_o,ALUCtrl_o}=5'b00011;//SLLV
 				endcase
 			end
-		3'b001://Branch
+		3'b001://BEQ
 			begin
 				{ALUSrc_1_o,ALUCtrl_o} = 5'b00110;
 			end
-		3'b010://Branch not Equal
+		3'b010://BNQ,BNEZ
 			begin
 				{ALUSrc_1_o,ALUCtrl_o} = 5'b01110;
 			end
