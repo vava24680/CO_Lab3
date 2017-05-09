@@ -133,8 +133,8 @@ always @ ( * ) begin
 				ALU_op_o = 3'b010;
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
-				RegDst_o = 1'b0;     //Don't care
-				//RegDst_o = 2'b00;
+				//RegDst_o = 1'b0;     //Don't care
+				RegDst_o = 2'b00;
 			end
 
 		6'd6://For BLT

@@ -2,7 +2,7 @@
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
-//Writer:0416315���416005張彧�//----------------------------------------------
+//Writer:0416315王定偉0416005張彧豪//----------------------------------------------
 //Date:
 //----------------------------------------------
 //Description:
@@ -54,7 +54,7 @@ wire  ALUSrc_2_o;
 wire  RegWrite_o;
 //wire  RegDst_o;
 wire [2-1:0] RegDst_o;
-
+wire Jump_type;
 /*For ALU_Ctrl Module*/
 wire ALUSrc_1_o;
 wire [4-1:0] ALUCtrl_o;
@@ -70,6 +70,9 @@ wire zero_o;
 
 /*For Memory Module*/
 wire [32-1:0] MEM_Read_data_o;
+
+/*For MUX_2to1*/
+wire [32-1:0] Jump_address;
 
 /*For MUX_4to1*/
 wire [32-1:0] WB_data_o;
@@ -169,10 +172,18 @@ MUX_2to1 #(.size(32)) Mux_Branch(
         .data_o(Branch_MUX_out)
         );
 //seven MUX
+MUX_2to1 #(.size(32)) Mux_J_JR(
+		//Done
+        .data0_i({pc_plus_four[31:28],instruction_o[25:0],2'b00}),
+        .data1_i(RSdata_o),
+        .select_i(Jump_type),
+        .data_o(Jump_address);
+        );
+//eight MUX
 MUX_2to1 #(.size(32)) Mux_Jump(
 		//Done
         .data0_i(Branch_MUX_out),
-        .data1_i({pc_plus_four[31:28],instruction_o[25:0],2'b00}),
+        .data1_i(Jump_address),
         .select_i(Jump_o),
         .data_o(pc_number_next)
         );
@@ -209,7 +220,8 @@ ALU_Ctrl AC(
         .funct_i(instruction_o[5:0]),
         .ALUOp_i(ALU_op_o),
         .ALUCtrl_o(ALUCtrl_o),
-		.ALUSrc_1_o(ALUSrc_1_o)
+		.ALUSrc_1_o(ALUSrc_1_o),
+		.Jump_type(Jump_type)
         );
 
 Sign_Extend SE(
