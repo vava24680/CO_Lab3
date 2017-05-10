@@ -267,7 +267,7 @@ ALUCtrl_o,operation             -
    0101  ,   MUL                -
    0110  ,   SUB,BEQ            -
    0111  ,   SLT                -
-   1000  ,   N/A                -
+   1000  ,   JR                 -
    1001  ,   N/A                -
    1010  ,   N/A                -
    1011  ,   N/A                -
@@ -296,6 +296,11 @@ always @ ( * ) begin
 					begin
 						zero_o = ~(|MUL_result);
 						result_o = MUL_result;
+					end
+				4'b1000:
+					begin
+						zero_o = 1'b1;
+						result_o = 32'b0;
 					end
 				4'b1110://For BNE
 					begin

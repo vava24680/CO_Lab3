@@ -53,7 +53,7 @@ ALUCtrl_o,operation             -
    0101  ,   MUL                -
    0110  ,   SUB,BEQ            -
    0111  ,   SLT                -
-   1000  ,   N/A                -
+   1000  ,   JR                 -
    1001  ,   N/A                -
    1010  ,   N/A                -
    1011  ,   N/A                -
@@ -76,12 +76,12 @@ always @ ( * ) begin
 					6'd42: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b001110;//SLT
 					6'd43: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b011110; //SLTU
 					6'd24: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b001010;//MUL
-					6'd8: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b000101;//JR
+					6'd8: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b010001;//JR
 					6'd0: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b100110;//SLL
 					6'd4: {ALUSrc_1_o,ALUCtrl_o,Jump_type}=6'b000110;//SLLV
 				endcase
 			end
-		3'b001://BEQ
+		3'b001://BEQ,BLT,BLE
 			begin
 				{ALUSrc_1_o,ALUCtrl_o,Jump_type} = 6'b001100;
 			end

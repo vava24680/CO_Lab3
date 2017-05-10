@@ -104,7 +104,7 @@ always @ ( * ) begin
 				MemWrite_o = 1'b0;
 				ALU_op_o = 3'b111;   //Don't care
 				ALUSrc_o = 1'b0;     //Don't care
-				RegWrite_o = 1'b0;
+				RegWrite_o = 1'b1;
 				//RegDst_o = 1'b0      //Don't care
 				RegDst_o = 2'b10;
 			end
@@ -165,9 +165,6 @@ always @ ( * ) begin
 				//RegDst_o = 1'b0;   //Don't care
 				RegDst_o = 2'b00;
 			end
-		/*
-		6'd
-		*/
 		6'd8://Addi
 			begin
 				Branch_o = 1'b0;

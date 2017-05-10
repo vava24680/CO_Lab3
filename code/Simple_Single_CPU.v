@@ -2,7 +2,7 @@
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
-//Writer:0416315王定偉0416005張彧豪//----------------------------------------------
+//Writer:0416315��416005張彧��/----------------------------------------------
 //Date:
 //----------------------------------------------
 //Description:
@@ -94,8 +94,8 @@ ProgramCounter PC(
 		//Done
         .clk_i(clk_i),
 	    .rst_i (rst_i),
-	    //.pc_in_i(pc_number_in),
-		.pc_in_i(pc_number_next),
+	    .pc_in_i(pc_number_in),
+		//.pc_in_i(pc_number_next),
 		.pc_out_o(pc_number)
 	    );
 
@@ -172,20 +172,20 @@ MUX_2to1 #(.size(32)) Mux_Branch(
         .data_o(Branch_MUX_out)
         );
 //seven MUX
-MUX_2to1 #(.size(32)) Mux_J_JR(
-		//Done
-        .data0_i({pc_plus_four[31:28],instruction_o[25:0],2'b00}),
-        .data1_i(RSdata_o),
-        .select_i(Jump_type),
-        .data_o(Jump_address);
-        );
-//eight MUX
 MUX_2to1 #(.size(32)) Mux_Jump(
 		//Done
         .data0_i(Branch_MUX_out),
-        .data1_i(Jump_address),
+        .data1_i({pc_plus_four[31:28],instruction_o[25:0],2'b00}),
         .select_i(Jump_o),
         .data_o(pc_number_next)
+        );
+//eight MUX in the last stage
+MUX_2to1 #(.size(32)) Select_Final_address(
+		//Done
+        .data0_i(pc_number_next),
+        .data1_i(RSdata_o),
+        .select_i(Jump_type),
+        .data_o(pc_number_in)
         );
 Reg_File RF(
 		//Done

@@ -14,7 +14,7 @@ fib:
 11.beq s0,t1,re1		//§PÂ_¬O§_f(1)
 12.addi a0,s0,-1
 13.jal fib
-14.add s0,zero,v0
+14.add s1,zero,v0
 15.addi a0,s0,-2
 16.jal fib
 17.add v0,v0,s1
@@ -31,7 +31,8 @@ re1:
 24.j exitfib
 
 final:
-nop
+25.nop
+
 
 
 
