@@ -55,7 +55,10 @@ always @( posedge rst_i or posedge clk_i  ) begin
 	end
     else begin
         if(RegWrite_i)
-            Reg_File[RDaddr_i] <= RDdata_i;
+			if(RDaddr_i!=32'd0)
+            	Reg_File[RDaddr_i] <= RDdata_i;
+			else
+				Reg_File[RDaddr_i] <= 32'b0;
 		else
 		    Reg_File[RDaddr_i] <= Reg_File[RDaddr_i];
 	end

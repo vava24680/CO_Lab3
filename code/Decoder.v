@@ -182,7 +182,7 @@ always @ ( * ) begin
 		6'd15://For LUI
 			begin
 				Branch_o = 1'b0;
-				MemToReg_o = 2'b00;
+				MemToReg_o = 2'b10;
 				BranchType_o = 2'b00;
 				Jump_o = 1'b0;
 				MemRead_o = 1'b0;
@@ -207,7 +207,6 @@ always @ ( * ) begin
 				//RegDst_o = 1'b0;
 				RegDst_o = 2'b00;
 			end
-		/*
 		6'd15://For LI
 			begin
 				Branch_o = 1'b0;
@@ -221,7 +220,6 @@ always @ ( * ) begin
 				RegWrite_o = 1'b1;
 				RegDst_o = 2'b00;
 			end
-		*/
 		6'd35://For LW
 			begin
 				Branch_o = 1'b0;
