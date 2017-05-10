@@ -53,16 +53,15 @@ reg [2-1:0] RegDst_o;
 ---------------------------------
 ALU_op_o,set of operation      -
    000  ,   R-type             -
-   001  ,   BEQ,BLE,BLT        -
-   010  ,   BNE                -
+   001  ,   BEQ,BLT,BLE        -
+   010  ,   BNE,BNEZ           -
    011  ,   Addi,lw,sw         -
    100  ,   LUI                -
    101  ,   ORI                -
-   110  ,   N/A                -//Need confirmation
+   110  ,   LI                 -//Need confirmation
    111  ,   Don't care use     -
 ---------------------------------
 */
-
 //Main function
 always @ ( * ) begin
 	case (instr_op_i)
@@ -77,7 +76,6 @@ always @ ( * ) begin
 				ALU_op_o = 3'b000;
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b1;
-				//RegDst_o = 1'b1;
 				RegDst_o = 2'b01;
 			end
 		6'd2://For Jump
@@ -91,7 +89,6 @@ always @ ( * ) begin
 				ALU_op_o = 3'b111;   //Don't care
 				ALUSrc_o = 1'b0;     //Don't care
 				RegWrite_o = 1'b0;
-				//RegDst_o = 1'b0;     //Don't care
 				RegDst_o = 2'b00;    //Don't care
 			end
 		6'd3://For JAL
@@ -105,8 +102,7 @@ always @ ( * ) begin
 				ALU_op_o = 3'b111;   //Don't care
 				ALUSrc_o = 1'b0;     //Don't care
 				RegWrite_o = 1'b1;
-				//RegDst_o = 1'b0      //Don't care
-				RegDst_o = 2'b10;
+				RegDst_o = 2'b10;      //Don't care
 			end
 		6'd4://Branch Equal
 			begin
@@ -119,8 +115,7 @@ always @ ( * ) begin
 				ALU_op_o = 3'b001;
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
-				//RegDst_o = 1'b0;   //Don't care
-				RegDst_o = 2'b00;
+				RegDst_o = 2'b00;   //Don't care
 			end
 		6'd5://Brach not Equal, BNEZ(Need more check)
 			begin
@@ -133,10 +128,8 @@ always @ ( * ) begin
 				ALU_op_o = 3'b010;
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
-				//RegDst_o = 1'b0;     //Don't care
-				RegDst_o = 2'b00;
+				RegDst_o = 2'b00;     //Don't care
 			end
-
 		6'd6://For BLT
 			begin
 				Branch_o = 1'b1;
@@ -148,8 +141,7 @@ always @ ( * ) begin
 				ALU_op_o = 3'b001;
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
-				//RegDst_o = 1'b0;   //Don't care
-				RegDst_o = 2'b00;
+				RegDst_o = 2'b00;   //Don't care
 			end
 		6'd7://For BLE
 			begin
@@ -162,8 +154,7 @@ always @ ( * ) begin
 				ALU_op_o = 3'b001;
 				ALUSrc_o = 1'b0;
 				RegWrite_o = 1'b0;
-				//RegDst_o = 1'b0;   //Don't care
-				RegDst_o = 2'b00;
+				RegDst_o = 2'b00;//Don't care
 			end
 		6'd8://Addi
 			begin
@@ -176,21 +167,6 @@ always @ ( * ) begin
 				ALU_op_o = 3'b011;
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
-				//RegDst_o = 1'b0;
-				RegDst_o = 2'b00;
-			end
-		6'd15://For LUI
-			begin
-				Branch_o = 1'b0;
-				MemToReg_o = 2'b10;
-				BranchType_o = 2'b00;
-				Jump_o = 1'b0;
-				MemRead_o = 1'b0;
-				MemWrite_o = 1'b0;
-				ALU_op_o = 3'b100;
-				ALUSrc_o = 1'b1;
-				RegWrite_o = 1'b1;
-				//RegDst_o = 1'b0;
 				RegDst_o = 2'b00;
 			end
 		6'd13://For ORI
@@ -204,7 +180,6 @@ always @ ( * ) begin
 				ALU_op_o = 3'b101;
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
-				//RegDst_o = 1'b0;
 				RegDst_o = 2'b00;
 			end
 		6'd15://For LI
@@ -231,7 +206,6 @@ always @ ( * ) begin
 				ALU_op_o = 3'b011;   //Same as addi
 				ALUSrc_o = 1'b1;
 				RegWrite_o = 1'b1;
-				//RegDst_o = 1'b0;
 				RegDst_o = 2'b00;
 			end
 		6'd43://For SW

@@ -33,8 +33,8 @@ reg Jump_type;
 ---------------------------------
 ALU_op_o,set of operation      -
    000  ,   R-type             -
-   001  ,   BEQ                -
-   010  ,   BNE                -
+   001  ,   BEQ,BLT,BLE        -
+   010  ,   BNE,BNEZ           -
    011  ,   Addi,lw,sw         -
    100  ,   LUI                -
    101  ,   ORI                -
@@ -47,11 +47,11 @@ ALU_op_o,set of operation      -
 ALUCtrl_o,operation             -
    0000  ,   AND                -
    0001  ,   OR                 -
-   0010  ,   ADD                -
+   0010  ,   ADD,LW,SW          -
    0011  ,   Shift_Left         -
    0100  ,   LUI                -
    0101  ,   MUL                -
-   0110  ,   SUB,BEQ            -
+   0110  ,   SUB,BEQ,BLE,BLT    -
    0111  ,   SLT                -
    1000  ,   JR                 -
    1001  ,   N/A                -
@@ -59,7 +59,7 @@ ALUCtrl_o,operation             -
    1011  ,   N/A                -
    1100  ,   N/A                -
    1101  ,   N/A                -
-   1110  ,   BNE                -
+   1110  ,   BNE,BNEZ           -
    1111  ,   SLTU               -
 ---------------------------------
 */
@@ -85,7 +85,7 @@ always @ ( * ) begin
 			begin
 				{ALUSrc_1_o,ALUCtrl_o,Jump_type} = 6'b001100;
 			end
-		3'b010://BNQ,BNEZ
+		3'b010://BNE,BNEZ
 			begin
 				{ALUSrc_1_o,ALUCtrl_o,Jump_type} = 6'b011100;
 			end
@@ -93,7 +93,7 @@ always @ ( * ) begin
 			begin
 				{ALUSrc_1_o,ALUCtrl_o,Jump_type} = 6'b000100;
 			end
-		3'b100://LUI
+		3'b100://LI
 			begin
 				{ALUSrc_1_o,ALUCtrl_o,Jump_type} = 6'b001000;
 			end

@@ -261,11 +261,11 @@ alu_bottom alu32(
 ALUCtrl_o,operation             -
    0000  ,   AND                -
    0001  ,   OR                 -
-   0010  ,   ADD                -
+   0010  ,   ADD,LW,SW          -
    0011  ,   Shift_Left         -
    0100  ,   LUI                -
    0101  ,   MUL                -
-   0110  ,   SUB,BEQ            -
+   0110  ,   SUB,BEQ,BLE,BLT    -
    0111  ,   SLT                -
    1000  ,   JR                 -
    1001  ,   N/A                -
@@ -273,7 +273,7 @@ ALUCtrl_o,operation             -
    1011  ,   N/A                -
    1100  ,   N/A                -
    1101  ,   N/A                -
-   1110  ,   BNE                -
+   1110  ,   BNE,BNEZ           -
    1111  ,   SLTU               -
 ---------------------------------
 */
