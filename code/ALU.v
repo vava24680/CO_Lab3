@@ -304,7 +304,7 @@ always @ ( * ) begin
 					end
 				4'b1110://For BNE
 					begin
-						zero_o = (|temp_result[31:0]);
+						zero_o = ~(|temp_result[31:0]);
 						result_o = temp_result[31:0];
 					end
 				default://For AND,OR,SLTU,SLT,ADD,SUB,BEQ

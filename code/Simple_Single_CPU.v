@@ -159,7 +159,7 @@ MUX_4to1 #(.size(1)) Mux_Branch_Type(
 	.data0_i(zero_o),//BEQ
 	.data1_i((zero_o|result_o[31])),//BLE
 	.data2_i(result_o[31]),//BLT
-	.data3_i(zero_o),//BNE,BNEZ
+	.data3_i(~zero_o),//BNE,BNEZ
 	.select_i(BranchType_o),
 	.data_o(type_branch_o)
 	);

@@ -103,7 +103,9 @@ always @ ( * ) begin
 			end
 		default:
 			begin
+				ALUCtrl_o = 1'b0;
 				ALUCtrl_o=4'bxxxx;
+				Jump_type = 1'b0;
 			end
 	endcase
 end
