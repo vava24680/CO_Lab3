@@ -9,9 +9,9 @@ R8 =           x, R9 =           x, R10 =          x, R11 =          x, R12 =   
 R16 =          x, R17 =          x, R18 =          x, R19 =          x, R20 =          x, R21 =          x, R22 =          x, R23 =          x
 R24 =          x, R25 =          x, R26 =          x, R27 =          x, R28 =          x, R29 =          x, R30 =          x, R31 =          x
 PC =          0
-Data Memory =          4,          5,          6,          7,          8,          9,         10,          2
+Data Memory =          4,          5,          6,          7,                    8,          9,         10,          2
 Data Memory =          1,          3,          0,          0,          0,          0,          0,          0
-Data Memory =          0,          0,          0,          0,          0,          0,          0,          0
+Data Memory =          0,          0,          0,          0,          0,           0,          0,          0
 Data Memory =          0,          0,          0,          0,          0,          0,          0,          0
 Registers
 R0 =           0, R1 =           0, R2 =           0, R3 =           0, R4 =           0, R5 =           0, R6 =           0, R7 =           0
